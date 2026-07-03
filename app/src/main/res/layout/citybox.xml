@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- City Name -->
+    <TextView
+        android:id="@+id/city"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="City"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- PM10 Label -->
+    <TextView
+        android:id="@+id/pm10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PM10: "
+        android:textSize="14sp" />
+
+    <!-- PM10 Value -->
+    <TextView
+        android:id="@+id/pm10value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="0.0"
+        android:textSize="14sp" />
+
+    <!-- PM2.5 Label -->
+    <TextView
+        android:id="@+id/pm25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PM2.5: "
+        android:textSize="14sp" />
+
+    <!-- PM2.5 Value -->
+    <TextView
+        android:id="@+id/pm25value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="0.0"
+        android:textSize="14sp" />
+
+    <!-- Refresh Button -->
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="4dp"
+        android:text="🔄" />
+
+</LinearLayout>
