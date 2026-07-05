@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.widget.RemoteViews;
 
@@ -37,6 +36,7 @@ public class SensorWidget extends AppWidgetProvider {
 
         String pm10Str = "N/A";
         String pm25Str = "N/A";
+        String sensorName = "Nearest Sensor"; // Default fallback
         double pm25Val = 0.0;
         double pm10Val = 0.0;
 
@@ -44,11 +44,15 @@ public class SensorWidget extends AppWidgetProvider {
             cursor = dbHelper.getUserAddedSensors();
             // Grabbing the first (closest) user-tracked sensor in the table
             if (cursor != null && cursor.moveToFirst()) {
+                // Column 1 is the 'city' name in your database
+                sensorName = cursor.isNull(1) ? "Sensor " + cursor.getInt(0) : cursor.getString(1);
+
                 pm10Val = cursor.isNull(4) ? 0.0 : cursor.getDouble(4);
                 pm25Val = cursor.isNull(5) ? 0.0 : cursor.getDouble(5);
 
-                pm10Str = pm10Val == 0.0 ? "N/A" : String.valueOf((int)pm10Val);
-                pm25Str = pm25Val == 0.0 ? "N/A" : String.valueOf((int)pm25Val);
+                // Format to exactly 2 decimal places instead of casting to (int)
+                pm10Str = pm10Val == 0.0 ? "N/A" : String.format(Locale.getDefault(), "%.2f", pm10Val);
+                pm25Str = pm25Val == 0.0 ? "N/A" : String.format(Locale.getDefault(), "%.2f", pm25Val);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,6 +61,7 @@ public class SensorWidget extends AppWidgetProvider {
         }
 
         // 3. Apply Texts
+        views.setTextViewText(R.id.widget_title, sensorName);
         views.setTextViewText(R.id.widget_pm10, pm10Str);
         views.setTextViewText(R.id.widget_pm25, pm25Str);
 
