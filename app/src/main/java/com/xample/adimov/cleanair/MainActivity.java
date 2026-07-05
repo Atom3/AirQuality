@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         helpButton.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("UI tips")
-                    .setMessage("Long press on any sensor in the list to rename or delete it.\n\nTap a sensor to view time of data, distance and its location.\n\nYou can copy coordinates directly in google maps to find exact sensor locations.")
+                    .setMessage("Long press on any sensor in the list to rename or delete it.\n\nTap a sensor to view time of data, distance and its location.\n\nYou can copy coordinates directly in google maps to find exact sensor locations.\n\nPM2.5 show the number of particles ≤ 2.5 micrometers per cubic meter. PM10 is the same but for particles ≤ 10. A value under 25 is considered good and will be shown in green.")
                     .setPositiveButton("Got it!", null)
                     .show();
         });

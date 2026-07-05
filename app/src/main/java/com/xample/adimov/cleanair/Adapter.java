@@ -63,8 +63,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CityViewHolder> {
         float pm25f = parseFloat(pm25);
         float maxValue = Math.max(pm10f, pm25f);
 
-        if (maxValue < 15) holder.mainRowLayout.setBackgroundColor(Color.GREEN);
-        else if (maxValue < 75) holder.mainRowLayout.setBackgroundColor(Color.YELLOW);
+        if (maxValue < 25) holder.mainRowLayout.setBackgroundColor(Color.GREEN);
+        else if (maxValue < 50) holder.mainRowLayout.setBackgroundColor(Color.YELLOW);
         else holder.mainRowLayout.setBackgroundColor(Color.RED);
 
         // 1. Normal Click -> Expand / Collapse Coordinates
