@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:textAlignment="center"
     tools:context=".MainActivity">
 
-    <!-- Toolbar (AndroidX Compatible) -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -15,39 +15,57 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:title=""
-        app:title=""
-        app:menu="@menu/main_menu"> <!-- Toolbar Menu Added -->
+        app:title="">
 
-        <!-- TextView to center the title -->
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="What Air"
-            android:textSize="25sp"
-            android:layout_gravity="center"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/locationTextView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Getting location..."
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:gravity="center_horizontal"
-            android:padding="8dp" />
-    </androidx.appcompat.widget.Toolbar>
+            android:layout_height="match_parent">
 
-    <!-- RecyclerView for City Data -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list1"
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="What Air"
+                android:textSize="25sp" />
+
+            <ImageButton
+                android:id="@+id/help_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@android:drawable/ic_menu_help"
+                app:tint="@android:color/white" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:text="Getting location..."
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:gravity="center_horizontal"
+        android:padding="8dp" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:scrollbars="vertical" />
+        android:layout_below="@id/locationTextView">
 
-    <!-- Floating Action Button (Add City) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/NearestStation"
         android:layout_width="wrap_content"

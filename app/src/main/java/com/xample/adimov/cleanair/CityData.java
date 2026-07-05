@@ -32,4 +32,13 @@ public class CityData {
     public void setPM25(String pm25) { this.pm25 = pm25; }
     public void setLatitude(double latitude) { this.latitude = latitude; }
     public void setLongitude(double longitude) { this.longitude = longitude; }
+    private String time = "N/A";
+    private String distance = "Unknown";
+
+    public String getTime() { return time; }
+    public void setTime(String time) { this.time = time; }
+
+    public String getDistance() { return distance; }
+    public void setDistance(String distance) { this.distance = distance; }
+
 }

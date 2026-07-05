@@ -99,10 +99,13 @@ public class SensorDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    /** Delete a sensor by ID */
+    /** Delete a sensor by ID (Hides it from user view, but keeps in cache for distance math) */
     public void deleteSensorById(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("sensors", "id=?", new String[]{String.valueOf(id)});
+        ContentValues values = new ContentValues();
+        values.put("is_user_added", 0); // 0 means false (hidden)
+
+        db.update("sensors", values, "id=?", new String[]{String.valueOf(id)});
         db.close();
     }
 }

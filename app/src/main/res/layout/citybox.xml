@@ -3,61 +3,95 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:padding="8dp">
+    android:orientation="vertical">
 
-    <!-- City Name -->
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/mainRowLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="City"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
 
-    <!-- PM10 Label -->
-    <TextView
-        android:id="@+id/pm10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PM10: "
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="City"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <!-- PM10 Value -->
-    <TextView
-        android:id="@+id/pm10value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="0.0"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/pm10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PM10: "
+            android:textSize="14sp" />
 
-    <!-- PM2.5 Label -->
-    <TextView
-        android:id="@+id/pm25"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PM2.5: "
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/pm10value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0.0"
+            android:textSize="14sp" />
 
-    <!-- PM2.5 Value -->
-    <TextView
-        android:id="@+id/pm25value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="0.0"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/pm25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PM2.5: "
+            android:textSize="14sp" />
 
-    <!-- Refresh Button -->
-    <Button
-        android:id="@+id/refreshButton"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/pm25value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0.0"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/expandableDetailsLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackground"
-        android:padding="4dp"
-        android:text="🔄" />
+        android:background="#F0F0F0"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/timeAndDistanceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11:34 • 5 km"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:layout_marginEnd="12dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/coordinatesText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0.000, 0.000"
+            android:textColor="#555555"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/copyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="8dp"
+            android:text="Copy"
+            android:textSize="12sp" />
+    </LinearLayout>
+
 
 </LinearLayout>
