@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Nearest Air Quality"
         android:textColor="@android:color/white"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:alpha="0.9" />
 

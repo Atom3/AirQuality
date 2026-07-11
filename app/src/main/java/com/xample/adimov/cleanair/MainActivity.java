@@ -90,12 +90,52 @@ public class MainActivity extends AppCompatActivity {
         helpButton.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("UI tips")
-                    .setMessage("Long press on any sensor in the list to rename or delete it.\n\nTap a sensor to view time of data, distance and its location.\n\nYou can copy coordinates directly in google maps to find exact sensor locations.\n\nPM2.5 show the number of particles ≤ 2.5 micrometers per cubic meter. PM10 is the same but for particles ≤ 10. A value under 25 is considered good and will be shown in green.")
+                    .setMessage("Long press on any sensor in the list to rename or delete it.\n\nTap a sensor to view time of data, distance and its location.\n\nYou can copy coordinates directly in google maps to find exact sensor locations.\n\nPM2.5 show the number of particles ≤ 2.5 micrometers per cubic meter. PM10 is the same but for particles ≤ 10. World health organization has set the 24 hour exposure limits for PM2.5 at 15 and for PM10 at 45, values over that will be shown in yellow, and still higher values in red to signify unhealthy environment.")
                     .setPositiveButton("Got it!", null)
                     .show();
         });
 
+        ImageButton settingsButton = findViewById(R.id.settings_button);
+        settingsButton.setOnClickListener(v -> {
+            String[] options = {"30 Minutes", "1 Hour", "2 Hours", "4 Hours", "8 Hours", "12 Hours", "24 Hours"};
+            long[] intervals = {
+                    30 * 60 * 1000L,
+                    60 * 60 * 1000L,
+                    2 * 60 * 60 * 1000L,
+                    4 * 60 * 60 * 1000L,
+                    8 * 60 * 60 * 1000L,
+                    12 * 60 * 60 * 1000L,
+                    24 * 60 * 60 * 1000L
+            };
+
+            SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+            long currentInterval = prefs.getLong("widget_refresh_interval", 60 * 60 * 1000L);
+            int checkedItem = 1; // Default to 1 hour
+            for (int i = 0; i < intervals.length; i++) {
+                if (intervals[i] == currentInterval) {
+                    checkedItem = i;
+                    break;
+                }
+            }
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Widget Refresh Rate")
+                    .setSingleChoiceItems(options, checkedItem, (dialog, which) -> {
+                        long selectedInterval = intervals[which];
+                        prefs.edit().putLong("widget_refresh_interval", selectedInterval).apply();
+
+                        // Reschedule the widget refresh alarm with the new interval
+                        SensorWidget.scheduleUpdate(MainActivity.this, selectedInterval);
+
+                        Toast.makeText(MainActivity.this, "Refresh rate set to " + options[which], Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
+
         FloatingActionButton addCity = findViewById(R.id.NearestStation);
+
         RecyclerView recyclerView = findViewById(R.id.list1);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));

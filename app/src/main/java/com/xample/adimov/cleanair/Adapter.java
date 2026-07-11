@@ -61,11 +61,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CityViewHolder> {
         // Color coding logic
         float pm10f = parseFloat(pm10);
         float pm25f = parseFloat(pm25);
-        float maxValue = Math.max(pm10f, pm25f);
 
-        if (maxValue < 25) holder.mainRowLayout.setBackgroundColor(Color.GREEN);
-        else if (maxValue < 50) holder.mainRowLayout.setBackgroundColor(Color.YELLOW);
-        else holder.mainRowLayout.setBackgroundColor(Color.RED);
+        if (pm25f <= 15 && pm10f <= 45) {
+            holder.mainRowLayout.setBackgroundColor(Color.GREEN);
+        } else if (pm25f <= 35 && pm10f <= 75) {
+            holder.mainRowLayout.setBackgroundColor(Color.YELLOW);
+        } else {
+            holder.mainRowLayout.setBackgroundColor(Color.RED);
+        }
 
         // 1. Normal Click -> Expand / Collapse Coordinates
         holder.itemView.setOnClickListener(v -> {
@@ -104,6 +107,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CityViewHolder> {
                                             city.setName(newName);
                                             notifyItemChanged(holder.getAdapterPosition());
                                             Toast.makeText(mContext, "Renamed", Toast.LENGTH_SHORT).show();
+
+                                            // Broadcast update to the widget so it immediately shows the new name
+                                            android.content.Intent intent = new android.content.Intent(mContext, SensorWidget.class);
+                                            intent.setAction(android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                                            int[] ids = android.appwidget.AppWidgetManager.getInstance(mContext)
+                                                    .getAppWidgetIds(new android.content.ComponentName(mContext, SensorWidget.class));
+                                            intent.putExtra(android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+                                            mContext.sendBroadcast(intent);
                                         }
                                     })
                                     .setNegativeButton("Cancel", null)

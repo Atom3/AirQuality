@@ -1,10 +1,13 @@
 package com.xample.adimov.cleanair;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.widget.RemoteViews;
 
@@ -15,8 +18,48 @@ import java.util.Locale;
 public class SensorWidget extends AppWidgetProvider {
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int appWidgetId : appWidgetIds) {
+    public void onEnabled(Context context) {
+        super.onEnabled(context);
+        // Start the alarm when the first widget is created
+        SharedPreferences prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        long interval = prefs.getLong("widget_refresh_interval", 60 * 60 * 1000L);
+        scheduleUpdate(context, interval);
+    }
+
+    @Override
+    public void onDisabled(Context context) {
+        super.onDisabled(context);
+        // Cancel the alarm when the last widget is removed
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            Intent intent = new Intent(context, SensorWidget.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            alarmManager.cancel(pendingIntent);
+        }
+    }
+
+    public static void scheduleUpdate(Context context, long intervalMillis) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            Intent intent = new Intent(context, SensorWidget.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+
+            // We need to pass the widget IDs so onUpdate is triggered properly
+            int[] ids = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, SensorWidget.class));
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+            alarmManager.cancel(pendingIntent); // Cancel existing alarm
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + intervalMillis, intervalMillis, pendingIntent);
+        }
+    }
+
+    @Override
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {        for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
