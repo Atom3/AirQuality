@@ -108,4 +108,22 @@ public class SensorDatabaseHelper extends SQLiteOpenHelper {
         db.update("sensors", values, "id=?", new String[]{String.valueOf(id)});
         db.close();
     }
+    /** Update pm10 and pm25 values for a specific sensor during widget update for efficiency*/
+    public void updateSensorDataValues(int id, double pm10, double pm25) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("pm10", pm10);
+        values.put("pm25", pm25);
+
+        // Update the row where the id matches
+        int rowsAffected = db.update("sensors", values, "id=?", new String[]{String.valueOf(id)});
+
+        if (rowsAffected > 0) {
+            Log.d(TAG, "Successfully updated live values for Sensor ID: " + id);
+        } else {
+            Log.w(TAG, "Failed to update live values. Sensor ID not found: " + id);
+        }
+
+        db.close();
+    }
 }

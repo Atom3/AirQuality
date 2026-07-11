@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         helpButton.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("UI tips")
-                    .setMessage("Long press on any sensor in the list to rename or delete it.\n\nTap a sensor to view time of data, distance and its location.\n\nYou can copy coordinates directly in google maps to find exact sensor locations.\n\nPM2.5 show the number of particles ≤ 2.5 micrometers per cubic meter. PM10 is the same but for particles ≤ 10. World health organization has set the 24 hour exposure limits for PM2.5 at 15 and for PM10 at 45, values over that will be shown in yellow, and still higher values in red to signify unhealthy environment.")
+                    .setMessage("Long press on any sensor in the list to rename or delete it.\n\nTap a sensor to view time of data, distance and its location.\n\nYou can copy coordinates directly in google maps to find exact sensor locations.\n\nPM2.5 shows the number of particles ≤ 2.5 micrometers per cubic meter. PM10 is the same but for particles ≤ 10. World health organization has set the safe 24 hour exposure limits for PM2.5 at 15 and for PM10 at 45, values over that will be shown in yellow, and still higher values in red to signify unhealthy environment.")
                     .setPositiveButton("Got it!", null)
                     .show();
         });
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
         long lastUpdate = prefs.getLong("last_update", 0);
         long currentTime = System.currentTimeMillis();
-        long twoDays = 2L * 24 * 60 * 60 * 1000;
+        long twoDays = 3L * 24 * 60 * 60 * 1000;
 
         if (currentTime - lastUpdate > twoDays) {
             updateSensorDatabase();
